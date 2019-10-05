@@ -1,7 +1,7 @@
 import {generateRandomString} from '../Helpers'
 import { SpyfallPayload } from './SpyfallPayload';
 import { Locations } from '../constants';
-import {Spyfall1Locations} from '../constants';
+import {Spyfall1Locations, Spyfall2Locations} from '../constants';
 import { getRoles } from './GameLogic';
 
 export default class Room {
@@ -23,8 +23,20 @@ export default class Room {
         this.ID = generateRandomString();
         this.roundLength = roundLength;
         this.users = {};
-        //TODO: GENERATE LOCATIONS
-        this.locations = Spyfall1Locations;
+        switch (locationType) {
+            case Locations.SP1:
+                this.locations = Spyfall1Locations;
+                break;
+            case Locations.SP2:
+                this.locations = Spyfall2Locations;
+                break;
+            case Locations.BOTH:
+                this.locations = Spyfall1Locations.concat(Spyfall2Locations)
+                break;
+            default:
+                this.locations = Spyfall1Locations;
+                break;
+        }
         this.agents = {}
     }
 
