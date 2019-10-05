@@ -1,22 +1,22 @@
-import {sf1locations, sf2locations} from './locations.json';
+import { sf1locations, sf2locations } from "./locations.json";
 
 export enum SpyfallEvent {
-    CONNECT = 'connect',
-    DISCONNECT = 'disconnect',
-    JOIN = 'join',
-    LEAVE = 'leave',
-    CREATEROOM = 'createroom',
-    CHANGENAME = 'changename',
-    STARTGAME = 'startgame',
-    ENDGAME = 'endgame',
-    RECEIVEPAYLOAD = 'receivepayload'
+  CONNECT = "connect",
+  DISCONNECT = "disconnect",
+  JOIN = "join",
+  LEAVE = "leave",
+  CREATEROOM = "createroom",
+  CHANGENAME = "changename",
+  STARTGAME = "startgame",
+  ENDGAME = "endgame",
+  RECEIVEPAYLOAD = "receivepayload"
 }
 
 export enum Locations {
-    SP1,
-    SP2,
-    BOTH,
-    CUSTOM
+  SP1,
+  SP2,
+  BOTH,
+  CUSTOM
 }
 
 export const Spyfall1Locations = sf1locations;
