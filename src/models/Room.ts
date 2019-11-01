@@ -59,7 +59,8 @@ export default class Room {
     return this.ID;
   }
 
-  public setLocations(locations: string[]) {
+  public setLocations(locations: any[]) {
+    //Janky fix for custom locations
     this.locations = locations;
   }
 

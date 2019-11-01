@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as socketIO from "socket.io";
 import { createServer, Server } from "http";
-import { SpyfallEvent } from "./constants";
+import { SpyfallEvent, Locations } from "./constants";
 import Room from "./models/Room";
 import { SpyfallRoomConfig } from "./models/SpyfallRoomConfig";
 
@@ -50,8 +50,25 @@ export class SpyfallServer {
       console.log("Client connected:", socket.id);
       socket.on(
         SpyfallEvent.CREATEROOM,
-        (config: SpyfallRoomConfig, desiredName: string) => {
+        (
+          config: SpyfallRoomConfig,
+          desiredName: string,
+          locations: string[]
+        ) => {
           const newRoom = new Room(config.roundDuration, config.locationType);
+          if (config.locationType === Locations.CUSTOM) {
+            //TODO: Do some checking to make sure that the passed in locations isn't malformed.
+            if (locations.length === 0) {
+              return;
+            }
+            let locs: any[] = [];
+            locations.forEach(location => {
+              locs.push({
+                title: location.trimLeft()
+              });
+            });
+            newRoom.setLocations(locs);
+          }
           const id = newRoom.getID();
           this.rooms[id] = newRoom;
           newRoom.addUser(socket.id);
@@ -70,7 +87,6 @@ export class SpyfallServer {
             if (room.hasUser(socket.id)) {
               room.changeUserName(socket.id, desiredName);
               const payload = room.getPayload();
-              console.log(payload);
               this.io.in(roomName).emit(SpyfallEvent.RECEIVEPAYLOAD, payload);
             }
           }
