@@ -121,6 +121,22 @@ export class SpyfallServer {
         }
       });
 
+      socket.on(
+        SpyfallEvent.LOADLOCATIONS,
+        (roomName: string, locations: string[]) => {
+          if (roomName in this.rooms) {
+            const room = this.rooms[roomName];
+            room.setLocations(locations);
+            if (!room.isEmpty()) {
+              const payload = room.getPayload();
+              this.io.in(roomName).emit(SpyfallEvent.RECEIVEPAYLOAD, payload);
+            } else {
+              delete this.rooms[roomName];
+            }
+          }
+        }
+      );
+
       socket.on(SpyfallEvent.DISCONNECT, () => {
         //Iterate through every room and see if user is connected.
         for (let key in this.rooms) {

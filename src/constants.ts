@@ -9,6 +9,7 @@ export enum SpyfallEvent {
   CHANGENAME = "changename",
   STARTGAME = "startgame",
   ENDGAME = "endgame",
+  LOADLOCATIONS = "loadlocations",
   RECEIVEPAYLOAD = "receivepayload"
 }
 
